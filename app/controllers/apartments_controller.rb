@@ -25,10 +25,6 @@ class ApartmentsController < ApplicationController
   # POST /apartments.json
   def create
     @apartment = Apartment.new(apartment_params)
-    # @apartment = Apartment.find(params[:id])
-    # unless params[:street].present?
-    #   @apartment.errors.add(:street, "Street is required")
-    # end #ends unless
     respond_to do |format|
       if @apartment.save
         format.html { redirect_to @apartment, notice: 'Apartment was successfully created.' }
