@@ -1,10 +1,16 @@
 class ApartmentsController < ApplicationController
   before_action :set_apartment, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /apartments
   # GET /apartments.json
   def index
-    @apartments = Apartment.all
+    if params[:search].empty?
+      @apartments = Apartment.all
+    else
+      @apartments = Apartment.basic_search(params[:search])
+      render "/apartments/index"
+    end
   end
 
   # GET /apartments/1
@@ -60,6 +66,9 @@ class ApartmentsController < ApplicationController
     end
   end
 
+  def search
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_apartment
@@ -68,6 +77,6 @@ class ApartmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def apartment_params
-      params.require(:apartment).permit(:street, :city, :zipcode, :state, :country, :name, :phone, :hours)
+      params.require(:apartment).permit(:street, :city, :zipcode, :state, :country, :name, :phone, :hours, :image)
     end
 end

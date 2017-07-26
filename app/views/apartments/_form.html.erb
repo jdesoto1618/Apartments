@@ -1,4 +1,4 @@
-<%= form_with(model: apartment, local: true) do |form| %>
+<%= form_with(model: apartment, html: { multipart: true }, local: true) do |form| %>
   <% if apartment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(apartment.errors.count, "error") %> prohibited this apartment from being saved:</h2>
@@ -10,7 +10,9 @@
       </ul>
     </div>
   <% end %>
-
+  <div class="field">
+    <%= form.file_field :image %>
+  </div>
   <div class="field">
     <%= form.label :street %>
     <%= form.text_field :street, id: :apartment_street %>

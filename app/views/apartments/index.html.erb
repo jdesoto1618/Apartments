@@ -1,5 +1,5 @@
-<p id="notice"><%= notice %></p>
 
+<p id="notice"><%= notice %></p>
 <h1>Apartments</h1>
 
 <table>
@@ -36,13 +36,13 @@
   </tbody>
 </table>
 
-<h2>
-</h2>
-
-<br>
+<form action="/apartments" method="get">
+  <input type="text" name="search">
+  <input type="submit" value="Search Apartments"><br/>
+</form>
 
 <%= link_to 'New Apartment', new_apartment_path %>
-
+<%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
 <style media="screen">
 #map {
   height: 50vh;
