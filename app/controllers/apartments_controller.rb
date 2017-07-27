@@ -1,11 +1,13 @@
 class ApartmentsController < ApplicationController
   before_action :set_apartment, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-
+  load_and_authorize_resource
   # GET /apartments
   # GET /apartments.json
   def index
-    if params[:search].empty?
+    @ability = Ability.new(current_user)
+    @apartments= Apartment.all
+    if params[:search].nil? || params[:search].empty?
       @apartments = Apartment.all
     else
       @apartments = Apartment.basic_search(params[:search])
@@ -16,20 +18,23 @@ class ApartmentsController < ApplicationController
   # GET /apartments/1
   # GET /apartments/1.json
   def show
+    @user = current_user
   end
 
   # GET /apartments/new
   def new
-    @apartment = Apartment.new
+    @apartment = Apartment.new(user_id: current_user.id)
   end
 
   # GET /apartments/1/edit
   def edit
+    @user = current_user.id
   end
 
   # POST /apartments
   # POST /apartments.json
   def create
+    @user = current_user
     @apartment = Apartment.new(apartment_params)
     respond_to do |format|
       if @apartment.save
@@ -45,6 +50,7 @@ class ApartmentsController < ApplicationController
   # PATCH/PUT /apartments/1
   # PATCH/PUT /apartments/1.json
   def update
+    @user = current_user
     respond_to do |format|
       if @apartment.update(apartment_params)
         format.html { redirect_to @apartment, notice: 'Apartment was successfully updated.' }
@@ -59,6 +65,7 @@ class ApartmentsController < ApplicationController
   # DELETE /apartments/1
   # DELETE /apartments/1.json
   def destroy
+    @user = current_user
     @apartment.destroy
     respond_to do |format|
       format.html { redirect_to apartments_url, notice: 'Apartment was successfully destroyed.' }
@@ -77,6 +84,6 @@ class ApartmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def apartment_params
-      params.require(:apartment).permit(:street, :city, :zipcode, :state, :country, :name, :phone, :hours, :image)
+      params.require(:apartment).permit(:street, :city, :zipcode, :state, :country, :name, :phone, :hours, :image, :user_id)
     end
 end

@@ -34,6 +34,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'paperclip'
 gem 'devise'
 gem 'omniauth-facebook'
+gem 'cancancan'
+gem 'rolify'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'rspec-rails'
